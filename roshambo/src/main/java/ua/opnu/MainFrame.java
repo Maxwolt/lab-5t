@@ -27,10 +27,19 @@ public class MainFrame extends JFrame implements ActionListener {
         JButton scissorsButton = new JButton("Ножиці");
         scissorsButton.addActionListener(this);
         scissorsButton.setActionCommand("scissors");
+        JButton lizardButton = new JButton("Ящерка");
+        lizardButton.addActionListener(this);
+        lizardButton.setActionCommand("lizard");
+        JButton spockButton = new JButton("Спок");
+        spockButton.addActionListener(this);
+        spockButton.setActionCommand("spock");
+
 
         this.add(rockButton);
         this.add(paperButton);
         this.add(scissorsButton);
+        this.add(lizardButton);
+        this.add(spockButton);
 
         this.pack();
         this.setVisible(true);
@@ -38,24 +47,65 @@ public class MainFrame extends JFrame implements ActionListener {
 
     private GameShape generateShape() {
 
-        // TODO: написати логіку методу
+        int random = new Random().nextInt(5);
 
-        // Метод повертає об'єкт ігрової фігури (камінь, ножиці чи папір)
-        // випадковим чином
+        return switch (random) {
+            case 0 -> new Rock();
+            case 1 -> new Paper();
+            case 2 -> new Scissors();
+            case 3 -> new Lizard();
+            case 4 -> new Spock();
+            default -> throw new IllegalStateException("Unexpected value: " + random);
+        };
 
-        int random = new Random().nextInt(3);
-
-        return new GameShape(); // TODO: змініть на об'єкт потрібної фігури
     }
 
     private int checkWinner(GameShape player, GameShape computer) {
 
-        // Метод отримує клас фігури гравця і комп'ютера за допомогою оператора instanceof
-        // Метод повертає 1 якщо переміг гравець
-        // Метод повертає 0 якщо нічия (обидві фігури однакові)
-        // Метод повертає -1 якщо переміг комп'ютер
 
-        // TODO: написати логіку методу
+        if (player.getClass() == computer.getClass()) {
+            return 0;
+        }
+
+        if (player instanceof Rock) {
+            if (computer instanceof Scissors || computer instanceof Lizard) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+
+        if (player instanceof Paper) {
+            if (computer instanceof Rock || computer instanceof Spock) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+
+        if (player instanceof Scissors) {
+            if (computer instanceof Paper || computer instanceof Lizard) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+
+        if (player instanceof Lizard) {
+            if (computer instanceof Paper || computer instanceof Spock) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+
+        if (player instanceof Spock) {
+            if (computer instanceof Rock || computer instanceof Scissors) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
 
         return 0;
     }
@@ -69,13 +119,19 @@ public class MainFrame extends JFrame implements ActionListener {
         // Визначаємо, на яку кнопку натиснув гравець
         switch (e.getActionCommand()) {
             case "rock":
-                // присвоїти playerShape об'єкт відповідного класу
+                playerShape = new Rock();
                 break;
             case "paper":
-                // присвоїти playerShape об'єкт відповідного класу
+                playerShape = new Paper();
                 break;
             case "scissors":
-                // присвоїти playerShape об'єкт відповідного класу
+                playerShape = new Scissors();
+                break;
+            case "lizard":
+                playerShape = new Lizard();
+                break;
+            case "spock":
+                playerShape = new Spock();
                 break;
         }
 

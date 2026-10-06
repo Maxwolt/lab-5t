@@ -180,4 +180,12 @@ public class PaintSurface extends JComponent {
             g2.draw(line);
         }
     }
+
+    public void clear() {
+        shapes.clear();
+        repaint();
+    }
+
+
+
 }
